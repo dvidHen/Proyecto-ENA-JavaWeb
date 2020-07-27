@@ -4,26 +4,26 @@
     Author     : Henrr
 --%>
 
-<%@page import="modelo_requerimientos.Requerimiento"%>
-<%@page import="java.util.ArrayList"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="modelo_pagina.Perfiles"%>
+
 <%@page import="java.sql.ResultSet"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="modelo_requerimientos.Requerimiento"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
     <jsp:include page="./shared/head.jsp" />
-    <%
-        ArrayList<Requerimiento> requerimientosRegistrados= (ArrayList<Requerimiento>) request.getAttribute("registros");
-    %>
-    <jsp:useBean id="cn" class="modelo_pagina.Perfiles" scope="page"></jsp:useBean>
-    <jsp:useBean id="ir" class="modelo_requerimientos.Requerimiento" scope="page"></jsp:useBean>
+   
+
+    <body>
+            <jsp:useBean id="cn" class="modelo_pagina.Perfiles" scope="page"></jsp:useBean>
+
         <%
             //Estructura del ResulSet gerencia, departamento, encargado, trabajador
             ResultSet rs= cn.infocombos();
             String elemento="";
             
         %>
-    <body>
         <div class="container"> 
             <h5>Consultar Requerimiento.</h5>
             <form action="Controlador" method="post">
@@ -60,7 +60,7 @@
                     <%--busqueda de datos--%>
                     <button class="waves-effect waves-light btn-small" type="submit" name="opcionEnvio" value="consulta">Buscar</button><br><br>
             </form> 
-                    
+                   
                     <table class="highlight">
                     <thead>
                       <tr>
@@ -70,28 +70,15 @@
                           <th>Requerimiento</th>
                       </tr>
                     </thead>
-                   <%--
-                       ResultSet inforegis= (ResultSet) request.getAttribute("inforegistros");
-                   %>
-                    <%--Falta ingresar datos de respuestas, debe ser automático   
-                    <tbody>
-                        <%
-                            
-                            while(inforegis.next()){
-                        %>        
-                                <tr>
-                                <td><%=inforegis.getString("gerencia")%></td>
-                                <td><%=inforegis.getString("departamento")%></td>
-                                <td><%=inforegis.getString("asignadoa")%></td>
-                                <td><%=inforegis.getString("departamento")%></td>
-                                </tr>
-                                
-                        <%        
-                            }
-                        %> --%>  
-                    <tbody>
-                 <%
-                        for(Requerimiento aux: requerimientosRegistrados){
+                         
+                    <tbody>  
+                    <%
+                     ArrayList<Requerimiento> requerimientosRegistrados= (ArrayList<Requerimiento>) request.getAttribute("registros");
+                     if(requerimientosRegistrados==null){
+                         %>
+                         
+                    <% }else{
+                     for(Requerimiento aux: requerimientosRegistrados){
                     
                     %>
                         <tr>
@@ -102,6 +89,7 @@
                         </tr>
                    <%
                        }
+                     }
                    %>
 
                     </tbody>

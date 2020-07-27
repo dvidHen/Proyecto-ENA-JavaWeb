@@ -80,9 +80,14 @@ public class Controlador extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         ArrayList<Requerimiento> registros= new ArrayList();
+        String  ger= request.getParameter("gerencia");
+        String  dep= request.getParameter("departamento");
+        String  asig= request.getParameter("asignadoa");
+        
+        System.out.println("datos de entrada: "+ ger + dep+ asig);
         Requerimiento aux= new Requerimiento();
         
-        registros= aux.consultar();
+        registros= aux.consultar(ger, dep, asig);
         
         if(registros==null){
             request.setAttribute("msg", "<div class='chip'>No se encontraron registros.<i class='close material-icons'>close</i></div>");
@@ -92,38 +97,27 @@ public class Controlador extends HttpServlet {
         request.getRequestDispatcher("consultarreq.jsp").forward(request, response);
 
     }
-    
- /*      protected void consultaReq(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
-        String  ger= request.getParameter("gerencia");
-        String  dep= request.getParameter("departamento");
-        String  asig= request.getParameter("asignadoa");
-        
-        Requerimiento aux= new Requerimiento();
 
-           
-        
-        //ResultSet info= aux.consultar(ger, dep, asig);
-         ResultSet info= null;
-        
-        if(info==null){
-            request.setAttribute("msg", "<div class='chip'>No se encontraron registros.<i class='close material-icons'>close</i></div>");
-        }else{
-            request.setAttribute("inforegistros",info);
-        }
-        
-        request.getRequestDispatcher("consultarreq.jsp").forward(request, response);
-
-    }*/
     
     protected void cierreReq(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        String  id= request.getParameter("cierre");
+        String  ger= request.getParameter("gerencia");
+        String  dep= request.getParameter("departamento");
+        String  asig= request.getParameter("asignadoa");
+        Requerimiento aux= new Requerimiento();
+        boolean respuesta= aux.cerrarcaso(Integer.parseInt(id));
         
-
+        
+        ArrayList<Requerimiento> registros= aux.consultar(ger, dep, asig);
+        
+        if(respuesta==false){
+            request.setAttribute("msg", "<div class='chip'>No se pudo cerrar el requerimiento.<i class='close material-icons'>close</i></div>");
+        }else{
+            request.setAttribute("registros",registros);
+        }
+        request.getRequestDispatcher("cerrarreq.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

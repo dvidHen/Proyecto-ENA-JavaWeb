@@ -135,18 +135,26 @@ public class Requerimiento {
         return resultado;
     }
     
-    public ArrayList consultar(){
+    public ArrayList<Requerimiento> consultar(String ger, String dep, String asig){
         MysqlConexion cone= new MysqlConexion();
         ArrayList<Requerimiento> registros= new ArrayList();
-        
-        
+        PreparedStatement st;
+        String sql;
         try{
             cone.conectar();
-            String sql="select id, gerencia, departamento, encargado, asignadoa, descripcion, estado from requerimiento";
-            PreparedStatement st=(PreparedStatement) cone.getConexion().prepareStatement(sql);
+            
+            if(ger.equals("") || dep.equals("")|| asig.equals("")){
+                sql="select id, gerencia, departamento, encargado, asignadoa, descripcion, estado from requerimiento";
+                 st=(PreparedStatement) cone.getConexion().prepareStatement(sql);
+            }else{
+                 sql="select id, gerencia, departamento, encargado, asignadoa, descripcion, estado from requerimiento where gerencia= ? and departamento= ? and asignadoa = ?";
+                 st=(PreparedStatement) cone.getConexion().prepareStatement(sql);
+                 st.setString(1, ger);
+                 st.setString(2, dep);
+                 st.setString(3, asig);
+            }
             
             ResultSet res = st.executeQuery();
-            
             while (res.next()) {//Resultados de query
                 
                 registros.add(
@@ -162,11 +170,7 @@ public class Requerimiento {
                 );
  
                 
-            }
-            for(Requerimiento i: registros){
-                System.out.println("Id desde la lista: " +i.getId());
-            }
-            
+            }            
             
         } catch (SQLException ex) { }
         
@@ -174,26 +178,6 @@ public class Requerimiento {
             }
         return registros;
     }
-    
- /*public ResultSet consultar(String ger, String dep, String asig){
-        MysqlConexion cone= new MysqlConexion();
-        ResultSet res= null;
-        String sql="";
-        try{
-            cone.conectar();
-            
-            
-            sql="select id, gerencia, departamento, encargado, asignadoa, descripcion, estado from requerimiento";
-            PreparedStatement st=(PreparedStatement) cone.getConexion().prepareStatement(sql);
-            
-            res = st.executeQuery();
-            
-        } catch (SQLException ex) { }
-        
-            catch (ClassNotFoundException ex) {
-            }
-        return res;
-    }*/
     
     public boolean cerrarcaso(int id){
         boolean resultado=false;
