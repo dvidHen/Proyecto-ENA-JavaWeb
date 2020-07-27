@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 public class Perfiles  {
   
     
-    public boolean validarusuario(String usuario, String contrasena){ 
+    public static boolean validarusuario(String usuario, String contrasena){ 
         MysqlConexion cone= new MysqlConexion();
         try{
             cone.conectar();
@@ -44,5 +44,22 @@ public class Perfiles  {
                 Logger.getLogger(Perfiles.class.getName()).log(Level.SEVERE, null, ex);
             }
         return false;
+    }
+    public static ResultSet infocombos(){
+        MysqlConexion cone= new MysqlConexion();
+        ResultSet rs= null;
+        try{
+            cone.conectar();
+            String sql="select gerencia, departamento, encargado, trabajador from areas";
+            PreparedStatement st=(PreparedStatement) cone.getConexion().prepareStatement(sql);
+            rs=st.executeQuery();
+
+        } catch (SQLException ex) { }
+        
+            catch (ClassNotFoundException ex) {
+                Logger.getLogger(Perfiles.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        return rs;
     }
 }

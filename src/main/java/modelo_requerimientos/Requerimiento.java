@@ -29,6 +29,20 @@ public class Requerimiento {
     private String descripcion;
     private String estado;
 
+
+    public Requerimiento(String gerencia, String departamento, String asignadoa, String encargado, String descripcion, String estado) {
+        this.gerencia = gerencia;
+        this.departamento = departamento;
+        this.asignadoa = asignadoa;
+        this.encargado = encargado;
+        this.descripcion = descripcion;
+        this.estado = estado;
+    }
+
+    public Requerimiento() {
+    }
+    
+    
     public int getId() {
         return id;
     }
@@ -88,6 +102,7 @@ public class Requerimiento {
     public boolean ingresar(Requerimiento aux){
         boolean resultado= false;
         MysqlConexion cone= new MysqlConexion();
+        
         try{
             cone.conectar();
             String sql="INSERT INTO requerimiento (gerencia, departamento, encargado, asignadoa, descripcion, estado) VALUES ( ?, ?, ?, ?, ?, ?);";
@@ -110,35 +125,74 @@ public class Requerimiento {
         return resultado;
     }
     
-    public ArrayList<Requerimiento> consultar(){
+    /*public ArrayList consultar(){
         MysqlConexion cone= new MysqlConexion();
         ArrayList<Requerimiento> registros= new ArrayList();
+        ResultSet res= null;
         Requerimiento aux= new Requerimiento();
         try{
             cone.conectar();
-            String sql="select * from requerimiento;";
+            String sql="select id, gerencia, departamento, encargado, asignadoa, descripcion, estado from requerimiento";
             PreparedStatement st=(PreparedStatement) cone.getConexion().prepareStatement(sql);
             
-            ResultSet res = st.executeQuery();
+            res = st.executeQuery();
             
-            if (res.next()) {//Resultados de query
+            while (res.next()) {//Resultados de query
+                int id=res.getInt("id");
                 aux.setId(res.getInt("id"));
+                System.out.println("Id de la base: "+ aux.getId());
                 aux.setGerencia(res.getString("gerencia"));
                 aux.setDepartamento(res.getString("departamento"));
                 aux.setEncargado(res.getString("encargado"));
                 aux.setAsignadoa(res.getString("asignadoa"));
                 aux.setDescripcion(res.getString("descripcion"));
                 aux.setEstado(res.getString("estado"));
+                
+                System.out.println("Id desde la clase" + aux.getId());
                 //enlistado
                 registros.add(aux);
+                
             }
-            cone.desconectar();
+            for(Requerimiento i: registros){
+                System.out.println("Id desde la lista: " +i.getId());
+            }
+            
+            
         } catch (SQLException ex) { }
         
             catch (ClassNotFoundException ex) {
-                Logger.getLogger(Perfiles.class.getName()).log(Level.SEVERE, null, ex);
             }
         return registros;
+    }*/
+    
+     public ResultSet consultar(String ger, String dep, String asig){
+        MysqlConexion cone= new MysqlConexion();
+
+        ResultSet res= null;
+        Requerimiento aux= new Requerimiento();
+        try{
+            cone.conectar();
+            PreparedStatement st;
+            if(ger.equals("") || dep.equals("") || asig.equals("")){
+                String sql="select id, gerencia, departamento, encargado, asignadoa, descripcion, estado from requerimiento";
+                st=(PreparedStatement) cone.getConexion().prepareStatement(sql);
+            }else{
+                String sql="select id, gerencia, departamento, encargado, asignadoa, descripcion, estado from requerimiento where gerencia= ? and departamento= ? and asignadoa= ? ";
+                st=(PreparedStatement) cone.getConexion().prepareStatement(sql);
+                st.setString(1, ger);
+                st.setString(2, dep);
+                st.setString(1, asig);
+            }
+            
+            
+            res = st.executeQuery();
+            
+            
+        } catch (SQLException ex) { }
+        
+            catch (ClassNotFoundException ex) {
+            }
+        return res;
     }
     
     public boolean cerrarcaso(int id){
@@ -153,11 +207,13 @@ public class Requerimiento {
             resultado = st.executeUpdate() > 0;
             
             cone.desconectar();
+            
         } catch (SQLException ex) { }
         
             catch (ClassNotFoundException ex) {
                 Logger.getLogger(Perfiles.class.getName()).log(Level.SEVERE, null, ex);
             }
+        
         return resultado;
     }
     

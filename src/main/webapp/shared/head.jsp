@@ -4,6 +4,8 @@
     Author     : Henrr
 --%>
 
+
+<%@page import="modelo_pagina.Perfiles"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

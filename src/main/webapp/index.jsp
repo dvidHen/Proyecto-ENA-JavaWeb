@@ -10,7 +10,7 @@
    String mensaje="";
    if(err!=null){
         mensaje= "<label class='col s6 offset-s3 card-panel teal lighten-1 white-text'>Usuario o contraseña erróneo</label>";
-   } 
+   }
 %>
 <!DOCTYPE html>
 <html>
@@ -33,7 +33,8 @@
                         </p>
                         
                         <br><br>
-                        <input type="submit" value="ingresar" class="waves-effect waves-light btn-small white-text"/>
+                        
+                        <button class="waves-effect waves-light btn-small" type="submit" name="ingresar">Ingresar</button>
                     </form>
                         
                 </div>

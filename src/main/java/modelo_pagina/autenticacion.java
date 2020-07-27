@@ -39,11 +39,9 @@ public class autenticacion extends HttpServlet {
         String usuario=request.getParameter("usuario");
         String contrasena=request.getParameter("contrasena");
         
-        Perfiles nuevo= new Perfiles();
-        
 
         
-        if (nuevo.validarusuario(usuario, contrasena)) {
+        if (Perfiles.validarusuario(usuario, contrasena)) {
             response.sendRedirect("menuprincipal.jsp");
         }else{
             response.sendRedirect("index.jsp?err=1");
