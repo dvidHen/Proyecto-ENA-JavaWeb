@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -73,7 +75,7 @@ public class Controlador extends HttpServlet {
         request.getRequestDispatcher("ingresarreq.jsp").forward(request, response);
     }
     
-   /* protected void consultaReq(HttpServletRequest request, HttpServletResponse response)
+  protected void consultaReq(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
@@ -89,27 +91,32 @@ public class Controlador extends HttpServlet {
         }
         request.getRequestDispatcher("consultarreq.jsp").forward(request, response);
 
-    }*/
+    }
     
-        protected void consultaReq(HttpServletRequest request, HttpServletResponse response)
+ /*      protected void consultaReq(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
         String  ger= request.getParameter("gerencia");
         String  dep= request.getParameter("departamento");
         String  asig= request.getParameter("asignadoa");
-        Requerimiento aux= new Requerimiento();
         
-        ResultSet info= aux.consultar(ger, dep, asig);
+        Requerimiento aux= new Requerimiento();
+
+           
+        
+        //ResultSet info= aux.consultar(ger, dep, asig);
+         ResultSet info= null;
         
         if(info==null){
             request.setAttribute("msg", "<div class='chip'>No se encontraron registros.<i class='close material-icons'>close</i></div>");
         }else{
             request.setAttribute("inforegistros",info);
         }
+        
         request.getRequestDispatcher("consultarreq.jsp").forward(request, response);
 
-    }
+    }*/
     
     protected void cierreReq(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

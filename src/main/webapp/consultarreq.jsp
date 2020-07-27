@@ -20,7 +20,6 @@
         <%
             //Estructura del ResulSet gerencia, departamento, encargado, trabajador
             ResultSet rs= cn.infocombos();
-            ResultSet inforegistros= (ResultSet)request.getAttribute("inforegistros");
             String elemento="";
             
         %>
@@ -71,24 +70,27 @@
                           <th>Requerimiento</th>
                       </tr>
                     </thead>
-                   
-                    <%--Falta ingresar datos de respuestas, debe ser automático--%>    
+                   <%--
+                       ResultSet inforegis= (ResultSet) request.getAttribute("inforegistros");
+                   %>
+                    <%--Falta ingresar datos de respuestas, debe ser automático   
                     <tbody>
                         <%
                             
-                            while(inforegistros.next()){
+                            while(inforegis.next()){
                         %>        
                                 <tr>
-                                <td><%=inforegistros.getString("gerencia")%></td>
-                                <td><%=inforegistros.getString("departamento")%></td>
-                                <td><%=inforegistros.getString("asignadoa")%></td>
-                                <td><%=inforegistros.getString("departamento")%></td>
+                                <td><%=inforegis.getString("gerencia")%></td>
+                                <td><%=inforegis.getString("departamento")%></td>
+                                <td><%=inforegis.getString("asignadoa")%></td>
+                                <td><%=inforegis.getString("departamento")%></td>
                                 </tr>
                                 
                         <%        
                             }
-                        %>
-<%--                    <%
+                        %> --%>  
+                    <tbody>
+                 <%
                         for(Requerimiento aux: requerimientosRegistrados){
                     
                     %>
@@ -101,7 +103,7 @@
                    <%
                        }
                    %>
---%>
+
                     </tbody>
                   </table><br><br>
 
