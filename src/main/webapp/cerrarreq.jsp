@@ -68,30 +68,36 @@
                           <th>Departamento</th>
                           <th>Asignado a</th>
                           <th>Requerimiento</th>
+                          <th>Acción</th>
+                              
                       </tr>
                     </thead>
                          
                     <tbody>  
-                    <%
-                     ArrayList<Requerimiento> requerimientosRegistrados= (ArrayList<Requerimiento>) request.getAttribute("registros");
-                     if(requerimientosRegistrados==null){
+  
+                         <%
+                            ArrayList<Requerimiento> requerimientosRegistrados= (ArrayList<Requerimiento>) request.getAttribute("registros");
+                            if(requerimientosRegistrados==null){
                          %>
-                         
-                    <% }else{
-                     for(Requerimiento aux: requerimientosRegistrados){
-                    
-                    %>
-                        <tr>
-                            <td><%=aux.getGerencia()%></td>
-                            <td><%=aux.getDepartamento()%></td>
-                            <td><%=aux.getAsignadoa()%></td>
-                            <td><%=aux.getDescripcion()%></td>
-                            <button class="waves-effect waves-light btn-small" action="Controlador" method="post" type="submit" name="opcionEnvio" value="cierre">Buscar</button>
-                        </tr>
-                   <%
-                       }
-                     }
-                   %>
+                                <p>No trajo registros</p>
+                         <% }else{
+                            for(Requerimiento aux: requerimientosRegistrados){
+
+
+                         %>
+
+                               <tr>
+                                   
+                                   <td><%=aux.getGerencia()%></td>
+                                   <td><%=aux.getDepartamento()%></td>
+                                   <td><%=aux.getAsignadoa()%></td>
+                                   <td><%=aux.getDescripcion()%></td>
+                                   <td  name="id" value="<%=aux.getId()%>"><%=aux.getId()%></td>
+                               </tr>
+                          <%
+                              }
+                            }
+                          %>
 
                     </tbody>
                   </table><br><br>

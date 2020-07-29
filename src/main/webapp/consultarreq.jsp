@@ -8,6 +8,7 @@
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="modelo_requerimientos.Requerimiento"%>
+<%@page import="modelo_requerimientos.Controlador"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -60,7 +61,7 @@
                     <%--busqueda de datos--%>
                     <button class="waves-effect waves-light btn-small" type="submit" name="opcionEnvio" value="consulta">Buscar</button><br><br>
             </form> 
-                   
+                  
                     <table class="highlight">
                     <thead>
                       <tr>
@@ -72,25 +73,24 @@
                     </thead>
                          
                     <tbody>  
-                    <%
-                     ArrayList<Requerimiento> requerimientosRegistrados= (ArrayList<Requerimiento>) request.getAttribute("registros");
-                     if(requerimientosRegistrados==null){
+                       <%
+                             ArrayList<Requerimiento> requerimientosRegistrados= (ArrayList<Requerimiento>) request.getAttribute("registros");
+                            if(requerimientosRegistrados==null){
+                        %>
+                        <% }else{
+                            for(Requerimiento aux: requerimientosRegistrados){
+                
                          %>
-                         
-                    <% }else{
-                     for(Requerimiento aux: requerimientosRegistrados){
-                    
-                    %>
-                        <tr>
-                            <td><%=aux.getGerencia()%></td>
-                            <td><%=aux.getDepartamento()%></td>
-                            <td><%=aux.getAsignadoa()%></td>
-                            <td><%=aux.getDescripcion()%></td>
-                        </tr>
-                   <%
-                       }
-                     }
-                   %>
+                            <tr>
+                                <td><%=aux.getGerencia()%></td>
+                                <td><%=aux.getDepartamento()%></td>
+                                <td><%=aux.getAsignadoa()%></td>
+                                <td><%=aux.getDescripcion()%></td>
+                            </tr>
+                         <%
+                                 }
+                            }
+                        %>
 
                     </tbody>
                   </table><br><br>

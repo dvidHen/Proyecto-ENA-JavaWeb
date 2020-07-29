@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,7 +36,7 @@ public class Controlador extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ClassNotFoundException  {
         response.setContentType("text/html;charset=UTF-8");
         
         String opcion= request.getParameter("opcionEnvio");
@@ -76,18 +78,17 @@ public class Controlador extends HttpServlet {
     }
     
   protected void consultaReq(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ClassNotFoundException  {
         response.setContentType("text/html;charset=UTF-8");
         
         ArrayList<Requerimiento> registros= new ArrayList();
-        String  ger= request.getParameter("gerencia");
-        String  dep= request.getParameter("departamento");
-        String  asig= request.getParameter("asignadoa");
+        //String  ger= request.getParameter("gerencia");
+        //String  dep= request.getParameter("departamento");
+        //String  asig= request.getParameter("asignadoa");
         
-        System.out.println("datos de entrada: "+ ger + dep+ asig);
         Requerimiento aux= new Requerimiento();
         
-        registros= aux.consultar(ger, dep, asig);
+        registros= aux.consultar();
         
         if(registros==null){
             request.setAttribute("msg", "<div class='chip'>No se encontraron registros.<i class='close material-icons'>close</i></div>");
@@ -100,17 +101,17 @@ public class Controlador extends HttpServlet {
 
     
     protected void cierreReq(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, ClassNotFoundException  {
         response.setContentType("text/html;charset=UTF-8");
         String  id= request.getParameter("cierre");
-        String  ger= request.getParameter("gerencia");
-        String  dep= request.getParameter("departamento");
-        String  asig= request.getParameter("asignadoa");
+        //String  ger= request.getParameter("gerencia");
+        //String  dep= request.getParameter("departamento");
+        //String  asig= request.getParameter("asignadoa");
         Requerimiento aux= new Requerimiento();
         boolean respuesta= aux.cerrarcaso(Integer.parseInt(id));
         
         
-        ArrayList<Requerimiento> registros= aux.consultar(ger, dep, asig);
+        ArrayList<Requerimiento> registros= aux.consultar();
         
         if(respuesta==false){
             request.setAttribute("msg", "<div class='chip'>No se pudo cerrar el requerimiento.<i class='close material-icons'>close</i></div>");
@@ -132,7 +133,11 @@ public class Controlador extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -146,7 +151,11 @@ public class Controlador extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Controlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

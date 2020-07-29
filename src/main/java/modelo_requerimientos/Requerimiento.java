@@ -135,7 +135,7 @@ public class Requerimiento {
         return resultado;
     }
     
-    public ArrayList<Requerimiento> consultar(String ger, String dep, String asig){
+    public ArrayList<Requerimiento> consultar(){
         MysqlConexion cone= new MysqlConexion();
         ArrayList<Requerimiento> registros= new ArrayList();
         PreparedStatement st;
@@ -143,18 +143,11 @@ public class Requerimiento {
         try{
             cone.conectar();
             
-            if(ger.equals("") || dep.equals("")|| asig.equals("")){
-                sql="select id, gerencia, departamento, encargado, asignadoa, descripcion, estado from requerimiento";
-                 st=(PreparedStatement) cone.getConexion().prepareStatement(sql);
-            }else{
-                 sql="select id, gerencia, departamento, encargado, asignadoa, descripcion, estado from requerimiento where gerencia= ? and departamento= ? and asignadoa = ?";
-                 st=(PreparedStatement) cone.getConexion().prepareStatement(sql);
-                 st.setString(1, ger);
-                 st.setString(2, dep);
-                 st.setString(3, asig);
-            }
-            
+            sql="select id, gerencia, departamento, encargado, asignadoa, descripcion, estado from requerimiento";
+            st=(PreparedStatement) cone.getConexion().prepareStatement(sql);
+
             ResultSet res = st.executeQuery();
+            
             while (res.next()) {//Resultados de query
                 
                 registros.add(
